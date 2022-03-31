@@ -106,6 +106,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       logo_url: logo.url,
       mainShows: allShow.filter((show) => show.main),
     },
+    revalidate: 60 * 60, // 1 hour
   };
 };
 
