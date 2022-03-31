@@ -7,6 +7,7 @@ import styles from "../styles/Home.module.css";
 
 import ArrowImage from "../public/arrow.png";
 import { IEpisode, ISeason, IShow } from "../interfaces/IShow";
+import ShowPoster from "../components/ShowPoster";
 
 interface IProps {
   logo_url: string;
@@ -21,6 +22,10 @@ interface ILogo {
 const Home: NextPage<IProps> = ({ logo_url, mainShows }) => {
   console.log(mainShows);
   const [showStreaming, setShowStreaming] = useState(true);
+
+  const handleShowDetails = (show: IShow) => {
+    console.log(show);
+  };
 
   return (
     <div className={styles.container}>
@@ -47,6 +52,13 @@ const Home: NextPage<IProps> = ({ logo_url, mainShows }) => {
           <Image src={ArrowImage} alt="Arrow" width={30} height={19.72} />
           <p>Rede TV TocantinsFLIX</p>
         </section>
+        <div className={styles.containerShows}>
+          {mainShows.map((show, index) => (
+            <div key={index}>
+              <ShowPoster show={show} onClick={handleShowDetails} />
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   );
@@ -93,7 +105,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       showsWithEpisodes.push({ ...show, seasons: newSeasons });
     }
 
-    // console.log(showsWithEpisodes);
     return showsWithEpisodes;
   };
 

@@ -40,6 +40,14 @@
   margin-bottom: auto;
 }
 
+.containerShows {
+  margin-left: 50px;
+  margin-right: 50px;
+  display: grid;
+  grid-template-columns: 160px 160px 160px 160px 160px 160px 160px;
+  grid-gap: 20px;
+}
+
 @media (max-width: 768px) {
   .containerStreaming {
     height: 70vh;
@@ -51,6 +59,12 @@
     margin-left: 0px;
     width: 80px;
     margin-top: 10px;
+  }
+
+  .containerShows {
+    margin-left: 5px;
+    grid-gap: 10px;
+    grid-template-columns: calc(50vw - 10px) calc(50vw - 10px);
   }
 
   .containerSection {
