@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Image from "next/image";
 import { IShow } from "../../interfaces/IShow";
 import styles from "../../styles/ShowPoster.module.css";
 
@@ -9,16 +10,19 @@ interface IProps {
 
 const ShowPoster: NextPage<IProps> = ({ show, onClick }) => {
   return (
-    <div>
-      <div
+    <div
+      onClick={() => {
+        onClick(show);
+      }}
+    >
+      <Image
+        src={show.posters[0]}
+        alt={show.name}
+        width={160}
+        height={250}
+        objectFit="cover"
         className={styles.container}
-        style={{
-          backgroundImage: `url(${show.posters[0]})`,
-        }}
-        onClick={() => {
-          onClick(show);
-        }}
-      ></div>
+      />
       <p className={styles.footerName}>
         {show.name.length > 80 ? `${show.name.substring(0, 80)}...` : show.name}
       </p>
