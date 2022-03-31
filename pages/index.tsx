@@ -6,9 +6,11 @@ import Streaming from "../components/Streaming";
 import styles from "../styles/Home.module.css";
 
 import ArrowImage from "../public/arrow.png";
+import { IEpisode, ISeason, IShow } from "../interfaces/IShow";
 
 interface IProps {
   logo_url: string;
+  mainShows: IShow[];
 }
 
 interface ILogo {
@@ -16,7 +18,8 @@ interface ILogo {
   url: string;
 }
 
-const Home: NextPage<IProps> = ({ logo_url }) => {
+const Home: NextPage<IProps> = ({ logo_url, mainShows }) => {
+  console.log(mainShows);
   const [showStreaming, setShowStreaming] = useState(true);
 
   return (
@@ -60,11 +63,48 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   };
 
+  const getAllShows = async (): Promise<IShow[]> => {
+    const res = await fetch(`${process.env.API_URL}/show/list`);
+    const shows = await res.json();
+
+    return shows;
+  };
+
+  const getAllEpisodesByAllShows = async (shows: IShow[]): Promise<IShow[]> => {
+    const showsWithEpisodes: IShow[] = [];
+    for (const show of shows) {
+      const newSeasons: ISeason[] = [];
+
+      for (const season of show.seasons) {
+        const newEpisodes: IEpisode[] = [];
+
+        for (const episode of season.episodes) {
+          const res = await fetch(
+            `${process.env.API_URL}/show/episode/${episode}`
+          );
+          const episodes = await res.json();
+
+          newEpisodes.push(episodes);
+        }
+
+        newSeasons.push({ ...season, episodes: newEpisodes });
+      }
+
+      showsWithEpisodes.push({ ...show, seasons: newSeasons });
+    }
+
+    // console.log(showsWithEpisodes);
+    return showsWithEpisodes;
+  };
+
   const logo: ILogo = await getLogoData();
+  const allShowsWithoutEpisodes = await getAllShows();
+  const allShow = await getAllEpisodesByAllShows(allShowsWithoutEpisodes);
 
   return {
     props: {
       logo_url: logo.url,
+      mainShows: allShow.filter((show) => show.main),
     },
   };
 };
