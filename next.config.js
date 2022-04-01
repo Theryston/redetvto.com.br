@@ -5,6 +5,10 @@ const nextConfig = {
   images: {
     domains: ["onedrive.live.com"],
   },
+  env: {
+    API_URL: process.env.API_URL,
+  },
+  strictMode: true,
 };
 
 module.exports = nextConfig;

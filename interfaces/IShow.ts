@@ -27,6 +27,7 @@ export interface ISource {
   createdAt: string;
   created_at: string;
   key: string;
+  url?: string;
   like_count: number;
   main: boolean;
   poster_key: string;

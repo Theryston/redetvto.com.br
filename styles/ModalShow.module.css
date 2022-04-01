@@ -94,6 +94,13 @@
   object-fit: cover;
 }
 
+.containerShares {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
   .video {
     height: 200px;
