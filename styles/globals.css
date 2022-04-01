@@ -29,3 +29,7 @@ a {
 .bg-black p {
   color: #fff !important;
 }
+
+a {
+  text-decoration: none;
+}
