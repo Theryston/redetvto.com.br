@@ -176,7 +176,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
           : true && !s.main;
       }),
     },
-    revalidate: 60 * 60, // 1 hour
+    revalidate: 60 * 1, // 1 minute
   };
 };
 

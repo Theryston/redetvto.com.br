@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       source,
     },
-    revalidate: 10,
+    revalidate: 60 * 1, // 1 minute
   };
 };
 
