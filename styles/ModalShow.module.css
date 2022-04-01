@@ -95,11 +95,11 @@
 }
 
 @media (max-width: 768px) {
-  .showPoster {
-    display: none;
-  }
-
   .video {
     height: 200px;
+  }
+
+  .containerEps {
+    margin-left: 0;
   }
 }

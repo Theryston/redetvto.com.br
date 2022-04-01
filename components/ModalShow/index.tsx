@@ -74,7 +74,7 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
             )}
           </div>
           <div className={styles.body}>
-            {show.posters && !sectionSelected._id && (
+            {show.posters && widthContainer > 768 && !sectionSelected._id && (
               <Image
                 src={show.posters[0]}
                 alt="Capa do programa"
@@ -143,7 +143,6 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
                           className={styles.episode}
                           key={index}
                         >
-                          {/* <img [src]="episode.sources[0].poster" alt="poster" class="episode-image">' */}
                           <Image
                             src={episode.sources[0].poster_key}
                             alt="poster"
@@ -166,6 +165,7 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
                     <button
                       onClick={() => {
                         setScrollX(0);
+                        setSelectedEpisode({} as IEpisode);
                         setSectionSelected(season);
                       }}
                       key={season._id}
