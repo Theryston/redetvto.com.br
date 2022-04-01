@@ -279,7 +279,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       sponsorLogos: allSponsorLogos,
       views: allViews,
     },
-    revalidate: 60 * 1, // 1 minute
+    revalidate: 10, // 10 seconds
   };
 };
 
