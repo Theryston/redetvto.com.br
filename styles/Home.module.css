@@ -81,8 +81,17 @@
 
   .containerShows {
     margin-left: 5px;
+    margin-right: 5px;
     grid-gap: 10px;
     grid-template-columns: calc(50vw - 10px) calc(50vw - 10px);
+  }
+
+  .containerShows span {
+    width: 100% !important;
+  }
+
+  .containerShows img {
+    width: 100% !important;
   }
 
   .containerSection {
@@ -90,5 +99,21 @@
   }
   .containerSection p {
     margin-left: 5px;
+  }
+
+  .containerScroll {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .containerShowsScroll {
+    width: calc(50vw - 10px) !important;
+  }
+
+  .containerShowsScroll span {
+    width: 100% !important;
+  }
+  .containerShowsScroll img {
+    width: 100% !important;
   }
 }
