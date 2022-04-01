@@ -6,15 +6,18 @@ import Streaming from "../components/Streaming";
 import styles from "../styles/Home.module.css";
 
 import ArrowImage from "../public/arrow.png";
-import { IEpisode, ISeason, IShow } from "../interfaces/IShow";
+import { IEpisode, ISeason, IShow, ISource } from "../interfaces/IShow";
 import ShowPoster from "../components/ShowPoster";
 import ModalShow from "../components/ModalShow";
+import { format } from "date-fns";
+import Link from "next/link";
 
 interface IProps {
   logo_url: string;
   mainShows: IShow[];
   reliShows: IShow[];
   otherShows: IShow[];
+  lastVideos: ISource[];
 }
 
 interface ILogo {
@@ -27,8 +30,8 @@ const Home: NextPage<IProps> = ({
   mainShows,
   reliShows,
   otherShows,
+  lastVideos,
 }) => {
-  console.log(otherShows);
   const [showStreaming, setShowStreaming] = useState(true);
   const [showDetails, setShowDetails] = useState<IShow>({} as IShow);
   const [showDetailsIsVisible, setShowDetailsIsVisible] = useState(false);
@@ -104,6 +107,39 @@ const Home: NextPage<IProps> = ({
             </div>
           </div>
         )}
+        <section className={`${styles.containerSection} bg-black`}>
+          <Image src={ArrowImage} alt="Arrow" width={30} height={19.72} />
+          <p>Novos episódios</p>
+        </section>
+        <div className={styles.containerSources}>
+          {lastVideos.map((video, index) => (
+            <div key={index}>
+              <Link href={`/video/${video._id}`}>
+                <a>
+                  <div className={styles.containerSource}>
+                    <Image
+                      src={video.poster_key}
+                      alt="Capa do video"
+                      width={280}
+                      height={190}
+                      objectFit="cover"
+                    />
+                    {video.created_at && (
+                      <div className={styles.videoCreated_at}>
+                        {format(new Date(video.created_at), "dd MMM")}
+                      </div>
+                    )}
+                    <div className={styles.videoFooter}>
+                      <p className={styles.videoFooterName}>
+                        {video.show_name}
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </Link>
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   );
@@ -153,9 +189,22 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return showsWithEpisodes;
   };
 
+  const getLastVideos = async (): Promise<ISource[]> => {
+    const response = await fetch(`${process.env.API_URL}/show/source/list`);
+    const allSources: ISource[] = await response.json();
+    let lastVideos: ISource[] = allSources.filter((s: any): any => {
+      if (s.poster_key !== null) {
+        return true;
+      }
+    });
+    lastVideos.splice(8, lastVideos.length - 8);
+    return lastVideos;
+  };
+
   const logo: ILogo = await getLogoData();
   const allShowsWithoutEpisodes = await getAllShows();
   const allShow = await getAllEpisodesByAllShows(allShowsWithoutEpisodes);
+  const lastVideos = await getLastVideos();
 
   return {
     props: {
@@ -175,6 +224,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
           ? false
           : true && !s.main;
       }),
+      lastVideos,
     },
     revalidate: 60 * 1, // 1 minute
   };
