@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ISeason, IShow } from "../../interfaces/IShow";
+import { IEpisode, ISeason, IShow } from "../../interfaces/IShow";
 
 import styles from "../../styles/ModalShow.module.css";
 
@@ -16,8 +16,15 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
   const [sectionSelected, setSectionSelected] = useState<ISeason>(
     {} as ISeason
   );
+  const [selectedEpisode, setSelectedEpisode] = useState<IEpisode>(
+    {} as IEpisode
+  );
   const [scrollX, setScrollX] = useState<number>(0);
   let widthContainer = 0;
+
+  const handleSelectedEpisode = (episode: IEpisode) => {
+    setSelectedEpisode(episode);
+  };
 
   if (typeof window !== "undefined") {
     widthContainer = window.innerWidth;
@@ -43,6 +50,7 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
 
   const handleClose = () => {
     setSectionSelected({} as ISeason);
+    setSelectedEpisode({} as IEpisode);
     setScrollX(0);
     onHide();
   };
@@ -54,11 +62,23 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
           <Modal.Title>{show.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ height: "90vh" }}>
+          <div>
+            {selectedEpisode && selectedEpisode._id && (
+              <video
+                className={styles.video}
+                autoPlay={true}
+                src={selectedEpisode.sources[0].key}
+                poster={selectedEpisode.sources[0].poster_key}
+                controls
+              ></video>
+            )}
+          </div>
           <div className={styles.body}>
             {show.posters && !sectionSelected._id && (
               <Image
                 src={show.posters[0]}
                 alt="Capa do programa"
+                className={styles.showPoster}
                 width={247.0588235294118}
                 height={300}
                 objectFit="cover"
@@ -116,7 +136,13 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
                       }}
                     >
                       {sectionSelected.episodes.map((episode, index) => (
-                        <div className={styles.episode} key={index}>
+                        <div
+                          onClick={() => {
+                            handleSelectedEpisode(episode);
+                          }}
+                          className={styles.episode}
+                          key={index}
+                        >
                           {/* <img [src]="episode.sources[0].poster" alt="poster" class="episode-image">' */}
                           <Image
                             src={episode.sources[0].poster_key}

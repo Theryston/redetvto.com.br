@@ -3,6 +3,11 @@
   display: flex;
 }
 
+.video {
+  width: 100%;
+  height: 500px;
+}
+
 .containerEps {
   margin-left: 10px;
   width: 100%;
@@ -81,4 +86,20 @@
 
 .movieRowRight {
   right: 0;
+}
+
+.showPoster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .showPoster {
+    display: none;
+  }
+
+  .video {
+    height: 200px;
+  }
 }
