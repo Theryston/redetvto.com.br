@@ -1,0 +1,75 @@
+.footer {
+  width: 100%;
+  background: #0f0f0f;
+  height: 500px;
+  margin-top: 10px;
+  padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  padding: 0px 400px;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+}
+
+.counterInput {
+  height: 30px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  background: var(--bs-info);
+  color: #fff;
+  font-weight: 500;
+  padding: 20px;
+  max-width: 220px;
+}
+
+.containerSocial {
+  padding: 0px !important;
+}
+
+.bodySocial {
+  margin-top: 50px;
+  justify-content: center !important;
+}
+
+.body span,
+.body img {
+  width: 150px !important;
+}
+
+.paragraph {
+  margin: 0px 20px;
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: 500;
+  text-align: center;
+  margin-top: auto;
+}
+
+.containerRedeTvLogo {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding-top: 40px;
+  }
+
+  .container {
+    padding: 0px 80px;
+  }
+}

@@ -22,9 +22,6 @@ const ShowPoster: NextPage<IProps> = ({ show, onClick }) => {
         height={250}
         objectFit="cover"
         className={styles.container}
-        onError={(e) => {
-          (e.target as any).src = "/placeholder.png";
-        }}
       />
       <p className={styles.footerName}>
         {show.name.length > 80 ? `${show.name.substring(0, 80)}...` : show.name}
