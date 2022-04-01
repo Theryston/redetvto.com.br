@@ -42,16 +42,19 @@ const Footer: NextPage<IProps> = ({ views, logo_url }) => {
     };
     setViewOnline();
 
-    const setViewOffline = async () => {
-      let ip = localStorage.getItem("ip");
-      if (ip === null) {
-        localStorage.setItem("ip", await generateString(1000));
-        ip = localStorage.getItem("ip");
-      }
-      await fetch(`${process.env.API_URL}/show/view`, {
-        method: "PATCH",
-        body: JSON.stringify({ user_ip: ip }),
-      });
+    const setViewOffline = () => {
+      const load = async () => {
+        let ip = localStorage.getItem("ip");
+        if (ip === null) {
+          localStorage.setItem("ip", await generateString(1000));
+          ip = localStorage.getItem("ip");
+        }
+        await fetch(`${process.env.API_URL}/show/view`, {
+          method: "PATCH",
+          body: JSON.stringify({ user_ip: ip }),
+        });
+      };
+      load();
     };
 
     return setViewOffline;
