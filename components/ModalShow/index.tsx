@@ -67,8 +67,8 @@ const ModalShow: NextPage<IProps> = ({ show, isVisible, onHide }) => {
               <video
                 className={styles.video}
                 autoPlay={true}
-                src={selectedEpisode.sources[0].key}
-                poster={selectedEpisode.sources[0].poster_key}
+                src={selectedEpisode.sources.find((s) => s.main)?.key}
+                poster={selectedEpisode.sources.find((s) => s.main)?.poster_key}
                 controls
               ></video>
             )}
