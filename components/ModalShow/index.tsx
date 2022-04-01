@@ -201,24 +201,28 @@ const ModalShow: NextPage<IProps> = ({
                         }}
                       >
                         {sectionSelected.episodes.map((episode, index) => (
-                          <div
-                            onClick={() => {
-                              handleSelectedEpisode(episode);
-                            }}
-                            className={styles.episode}
-                            key={index}
-                          >
-                            <Image
-                              src={episode.sources[0].poster_key}
-                              alt="poster"
-                              className={styles.episodeImage}
-                              width={220}
-                              height={120}
-                            />
-                            <div className="footer">
-                              <p className="name">{episode.name}</p>
-                            </div>
-                          </div>
+                          <>
+                            {episode && (
+                              <div
+                                onClick={() => {
+                                  handleSelectedEpisode(episode);
+                                }}
+                                className={styles.episode}
+                                key={index}
+                              >
+                                <Image
+                                  src={episode.sources[0].poster_key}
+                                  alt="poster"
+                                  className={styles.episodeImage}
+                                  width={220}
+                                  height={120}
+                                />
+                                <div className="footer">
+                                  <p className="name">{episode.name}</p>
+                                </div>
+                              </div>
+                            )}
+                          </>
                         ))}
                       </div>
                     </div>

@@ -48,6 +48,24 @@
   grid-gap: 20px;
 }
 
+.containerScroll {
+  display: flex;
+  margin-left: 50px;
+  margin-right: 50px;
+  transition: all 0.2s ease;
+  overflow-x: auto;
+  gap: 20px;
+}
+
+.containerScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.containerShowsScroll {
+  width: 160px;
+  flex: none;
+}
+
 @media (max-width: 768px) {
   .containerStreaming {
     height: 70vh;

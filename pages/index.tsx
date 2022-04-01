@@ -13,6 +13,8 @@ import ModalShow from "../components/ModalShow";
 interface IProps {
   logo_url: string;
   mainShows: IShow[];
+  reliShows: IShow[];
+  otherShows: IShow[];
 }
 
 interface ILogo {
@@ -20,8 +22,13 @@ interface ILogo {
   url: string;
 }
 
-const Home: NextPage<IProps> = ({ logo_url, mainShows }) => {
-  console.log(mainShows);
+const Home: NextPage<IProps> = ({
+  logo_url,
+  mainShows,
+  reliShows,
+  otherShows,
+}) => {
+  console.log(otherShows);
   const [showStreaming, setShowStreaming] = useState(true);
   const [showDetails, setShowDetails] = useState<IShow>({} as IShow);
   const [showDetailsIsVisible, setShowDetailsIsVisible] = useState(false);
@@ -75,6 +82,28 @@ const Home: NextPage<IProps> = ({ logo_url, mainShows }) => {
             </div>
           ))}
         </div>
+        {otherShows && (
+          <div className="container--showsScroll">
+            <div className={styles.containerScroll}>
+              {otherShows.map((show, index) => (
+                <div key={index} className={styles.containerShowsScroll}>
+                  <ShowPoster show={show} onClick={handleShowDetails} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {reliShows && (
+          <div className="container--showsScroll">
+            <div className={styles.containerScroll}>
+              {reliShows.map((show, index) => (
+                <div key={index} className={styles.containerShowsScroll}>
+                  <ShowPoster show={show} onClick={handleShowDetails} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
@@ -132,6 +161,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       logo_url: logo.url,
       mainShows: allShow.filter((show) => show.main),
+      reliShows: allShow.filter((s: any): any => {
+        return s.categories.filter(
+          (c: any) => c.name === "Programas religiosos"
+        ).length > 0
+          ? true
+          : false && !s.main;
+      }),
+      otherShows: allShow.filter((s: any): any => {
+        return s.categories.filter(
+          (c: any) => c.name === "Programas religiosos"
+        ).length > 0
+          ? false
+          : true && !s.main;
+      }),
     },
     revalidate: 60 * 60, // 1 hour
   };
