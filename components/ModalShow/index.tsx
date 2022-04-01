@@ -148,7 +148,10 @@ const ModalShow: NextPage<IProps> = ({
                     widthContainer > 768 &&
                     !sectionSelected._id && (
                       <Image
-                        src={show?.posters[0] || placeholderImage}
+                        src={show?.posters[0]}
+                        onError={(e) => {
+                          (e.target as any).src = "/placeholder.png";
+                        }}
                         alt="Capa do programa"
                         className={styles.showPoster}
                         width={247.0588235294118}

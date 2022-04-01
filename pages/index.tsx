@@ -12,7 +12,6 @@ import ModalShow from "../components/ModalShow";
 import { format } from "date-fns";
 import Link from "next/link";
 import { ISponsor } from "../interfaces/ISponsor";
-import placeholderImage from "../public/placeholder.png";
 
 interface IProps {
   logo_url: string;
@@ -122,10 +121,13 @@ const Home: NextPage<IProps> = ({
                 <a>
                   <div className={styles.containerSource}>
                     <Image
-                      src={video.poster_key || placeholderImage}
+                      src={video.poster_key}
                       alt="Capa do video"
                       width={280}
                       height={190}
+                      onError={(e) => {
+                        (e.target as any).src = "/placeholder.png";
+                      }}
                       objectFit="cover"
                     />
                     {video.created_at && (
@@ -152,11 +154,14 @@ const Home: NextPage<IProps> = ({
           {sponsorLogos.map((logo, index) => (
             <div key={index} className={styles.containerLogo}>
               <Image
-                src={logo.url || placeholderImage}
+                src={logo.url}
                 alt="Logo do patrocinadores"
                 width={100}
                 height={100}
                 objectFit="cover"
+                onError={(e) => {
+                  (e.target as any).src = "/placeholder.png";
+                }}
                 style={{
                   borderRadius: "50%",
                 }}
