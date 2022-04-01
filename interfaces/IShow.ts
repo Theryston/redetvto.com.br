@@ -23,7 +23,27 @@ export interface ICategory {
   _id: string;
 }
 
+export interface ISource {
+  createdAt: string;
+  created_at: string;
+  key: string;
+  like_count: number;
+  main: boolean;
+  poster_key: string;
+  show_name: string;
+  updatedAt: string;
+  views_count: number;
+  __v: number;
+  _id: string;
+}
+
 export interface IEpisode {
+  created_at: string;
+  name: string;
+  number: number;
+  sources: ISource[];
+  updatedAt: string;
+  __v: number;
   _id: string;
 }
 
@@ -31,7 +51,7 @@ export interface ISeason {
   _id: string;
   number: number;
   name: string;
-  episodes: string[] | IEpisode[];
+  episodes: IEpisode[];
   created_at: string;
   __v: number;
 }

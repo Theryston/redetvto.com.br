@@ -8,6 +8,7 @@ import styles from "../styles/Home.module.css";
 import ArrowImage from "../public/arrow.png";
 import { IEpisode, ISeason, IShow } from "../interfaces/IShow";
 import ShowPoster from "../components/ShowPoster";
+import ModalShow from "../components/ModalShow";
 
 interface IProps {
   logo_url: string;
@@ -22,13 +23,28 @@ interface ILogo {
 const Home: NextPage<IProps> = ({ logo_url, mainShows }) => {
   console.log(mainShows);
   const [showStreaming, setShowStreaming] = useState(true);
+  const [showDetails, setShowDetails] = useState<IShow>({} as IShow);
+  const [showDetailsIsVisible, setShowDetailsIsVisible] = useState(false);
 
   const handleShowDetails = (show: IShow) => {
-    console.log(show);
+    setShowStreaming(false);
+    setShowDetails(show);
+    setShowDetailsIsVisible(true);
+  };
+
+  const handleCloseShowDetails = () => {
+    setShowStreaming(true);
+    setShowDetails({} as IShow);
+    setShowDetailsIsVisible(false);
   };
 
   return (
     <div className={styles.container}>
+      <ModalShow
+        show={showDetails}
+        isVisible={showDetailsIsVisible}
+        onHide={handleCloseShowDetails}
+      />
       <Head>
         <title>Rede Tv - Tocantins</title>
         <meta name="description" content="Rede tv - Tocantins" />
