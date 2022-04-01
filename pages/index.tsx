@@ -13,7 +13,6 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { ISponsor } from "../interfaces/ISponsor";
 import Footer from "../components/Footer";
-import { IViews } from "../interfaces/IViews";
 
 interface IProps {
   logo_url: string;
@@ -22,7 +21,6 @@ interface IProps {
   otherShows: IShow[];
   lastVideos: ISource[];
   sponsorLogos: ISponsor[];
-  views: IViews;
 }
 
 interface ILogo {
@@ -37,7 +35,6 @@ const Home: NextPage<IProps> = ({
   otherShows,
   lastVideos,
   sponsorLogos,
-  views,
 }) => {
   const [showStreaming, setShowStreaming] = useState(true);
   const [showDetails, setShowDetails] = useState<IShow>({} as IShow);
@@ -167,7 +164,7 @@ const Home: NextPage<IProps> = ({
             </div>
           ))}
         </div>
-        <Footer views={views} logo_url={logo_url} />
+        <Footer logo_url={logo_url} />
       </main>
     </div>
   );
@@ -235,27 +232,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return allSponsors;
   };
 
-  const getAllViews = async (): Promise<IViews> => {
-    const response_geral = await fetch(`${process.env.API_URL}/show/view`);
-    const { views_count: geral_amount } = await response_geral.json();
-
-    const response_online = await fetch(
-      `${process.env.API_URL}/show/view/online`
-    );
-    const { views_count: online_amount } = await response_online.json();
-
-    return {
-      geral_amount,
-      online_amount,
-    };
-  };
-
   const logo: ILogo = await getLogoData();
   const allShowsWithoutEpisodes = await getAllShows();
   const allShow = await getAllEpisodesByAllShows(allShowsWithoutEpisodes);
   const lastVideos = await getLastVideos();
   const allSponsorLogos = await getAllSponsorLogos();
-  const allViews = await getAllViews();
 
   return {
     props: {
@@ -277,9 +258,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }),
       lastVideos,
       sponsorLogos: allSponsorLogos,
-      views: allViews,
     },
-    revalidate: 10, // 10 seconds
+    revalidate: 60 * 60 * 1, // 1 hour
   };
 };
 

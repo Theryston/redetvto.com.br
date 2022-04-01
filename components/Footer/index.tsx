@@ -6,10 +6,9 @@ import Image from "next/image";
 import facebookImage from "../../public/facebook.png";
 import wppImage from "../../public/wpp.png";
 import instagramImage from "../../public/instagram.png";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface IProps {
-  views: IViews;
   logo_url: string;
 }
 
@@ -25,7 +24,27 @@ const generateString = (length: number) => {
   return randomString;
 };
 
-const Footer: NextPage<IProps> = ({ views, logo_url }) => {
+const Footer: NextPage<IProps> = ({ logo_url }) => {
+  const [views, setViews] = useState<IViews>({} as IViews);
+
+  useEffect(() => {
+    const getAllViews = async () => {
+      const response_geral = await fetch(`${process.env.API_URL}/show/view`);
+      const { views_count: geral_amount } = await response_geral.json();
+
+      const response_online = await fetch(
+        `${process.env.API_URL}/show/view/online`
+      );
+      const { views_count: online_amount } = await response_online.json();
+
+      setViews({
+        geral_amount,
+        online_amount,
+      });
+    };
+    getAllViews;
+  }, []);
+
   useEffect(() => {
     const setViewOnline = async () => {
       if (localStorage) {
