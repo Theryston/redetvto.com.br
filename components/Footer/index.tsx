@@ -25,7 +25,10 @@ const generateString = (length: number) => {
 };
 
 const Footer: NextPage<IProps> = ({ logo_url }) => {
-  const [views, setViews] = useState<IViews>({} as IViews);
+  const [views, setViews] = useState<IViews>({
+    geral_amount: 0,
+    online_amount: 0,
+  });
 
   useEffect(() => {
     const getAllViews = async () => {
@@ -42,7 +45,7 @@ const Footer: NextPage<IProps> = ({ logo_url }) => {
         online_amount,
       });
     };
-    getAllViews;
+    getAllViews();
   }, []);
 
   useEffect(() => {
