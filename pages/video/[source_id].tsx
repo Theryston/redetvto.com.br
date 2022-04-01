@@ -64,11 +64,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const sources: ISource[] = await response.json();
 
   for (const source of sources) {
-    paths.push({
-      params: {
-        source_id: source._id,
-      },
-    });
+    if (source.poster_key) {
+      paths.push({
+        params: {
+          source_id: source._id,
+        },
+      });
+    }
   }
 
   return {
