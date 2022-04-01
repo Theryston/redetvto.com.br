@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { IEpisode, ISeason, IShow, ISource } from "../../interfaces/IShow";
+import placeholderImage from "../../public/placeholder.png";
 
 import styles from "../../styles/ModalShow.module.css";
 
@@ -147,7 +148,7 @@ const ModalShow: NextPage<IProps> = ({
                     widthContainer > 768 &&
                     !sectionSelected._id && (
                       <Image
-                        src={show?.posters[0]}
+                        src={show?.posters[0] || placeholderImage}
                         alt="Capa do programa"
                         className={styles.showPoster}
                         width={247.0588235294118}
@@ -219,7 +220,10 @@ const ModalShow: NextPage<IProps> = ({
                                     key={index}
                                   >
                                     <Image
-                                      src={episode.sources[0].poster_key}
+                                      src={
+                                        episode.sources[0].poster_key ||
+                                        placeholderImage
+                                      }
                                       alt="poster"
                                       className={styles.episodeImage}
                                       width={220}

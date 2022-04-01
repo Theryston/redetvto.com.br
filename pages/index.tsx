@@ -11,6 +11,8 @@ import ShowPoster from "../components/ShowPoster";
 import ModalShow from "../components/ModalShow";
 import { format } from "date-fns";
 import Link from "next/link";
+import { ISponsor } from "../interfaces/ISponsor";
+import placeholderImage from "../public/placeholder.png";
 
 interface IProps {
   logo_url: string;
@@ -18,6 +20,7 @@ interface IProps {
   reliShows: IShow[];
   otherShows: IShow[];
   lastVideos: ISource[];
+  sponsorLogos: ISponsor[];
 }
 
 interface ILogo {
@@ -31,6 +34,7 @@ const Home: NextPage<IProps> = ({
   reliShows,
   otherShows,
   lastVideos,
+  sponsorLogos,
 }) => {
   const [showStreaming, setShowStreaming] = useState(true);
   const [showDetails, setShowDetails] = useState<IShow>({} as IShow);
@@ -118,7 +122,7 @@ const Home: NextPage<IProps> = ({
                 <a>
                   <div className={styles.containerSource}>
                     <Image
-                      src={video.poster_key}
+                      src={video.poster_key || placeholderImage}
                       alt="Capa do video"
                       width={280}
                       height={190}
@@ -137,6 +141,26 @@ const Home: NextPage<IProps> = ({
                   </div>
                 </a>
               </Link>
+            </div>
+          ))}
+        </div>
+        <section className={styles.containerSection}>
+          <Image src={ArrowImage} alt="Arrow" width={30} height={19.72} />
+          <p>Eles apoiam nosso trabalho</p>
+        </section>
+        <div className={styles.containerLogos}>
+          {sponsorLogos.map((logo, index) => (
+            <div key={index} className={styles.containerLogo}>
+              <Image
+                src={logo.url || placeholderImage}
+                alt="Logo do patrocinadores"
+                width={100}
+                height={100}
+                objectFit="cover"
+                style={{
+                  borderRadius: "50%",
+                }}
+              />
             </div>
           ))}
         </div>
@@ -201,10 +225,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return lastVideos;
   };
 
+  const getAllSponsorLogos = async (): Promise<ISponsor[]> => {
+    const response = await fetch(`${process.env.API_URL}/show/logo/list`);
+    const allSponsors: ISponsor[] = await response.json();
+    return allSponsors;
+  };
+
   const logo: ILogo = await getLogoData();
   const allShowsWithoutEpisodes = await getAllShows();
   const allShow = await getAllEpisodesByAllShows(allShowsWithoutEpisodes);
   const lastVideos = await getLastVideos();
+  const allSponsorLogos = await getAllSponsorLogos();
 
   return {
     props: {
@@ -225,6 +256,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
           : true && !s.main;
       }),
       lastVideos,
+      sponsorLogos: allSponsorLogos,
     },
     revalidate: 60 * 1, // 1 minute
   };

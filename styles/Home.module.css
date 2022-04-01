@@ -126,6 +126,15 @@
   color: #fff;
 }
 
+.containerLogos {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 0px;
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 100px 100px;
+  grid-gap: 20px;
+}
+
 @media (max-width: 768px) {
   .containerStreaming {
     height: 70vh;
@@ -175,5 +184,27 @@
   }
   .containerShowsScroll img {
     width: 100% !important;
+  }
+
+  .containerSources {
+    grid-template-columns: calc(100vw - 10px);
+    grid-gap: 5px;
+    padding-left: 5px;
+  }
+
+  .containerSources span {
+    width: 100% !important;
+  }
+
+  .containerSources img {
+    width: 100% !important;
+  }
+
+  .containerLogos {
+    grid-template-columns: calc(24vw - 10px) calc(24vw - 10px) calc(24vw - 10px) calc(
+        24vw - 10px
+      );
+    grid-gap: 10px;
+    margin-left: 10px;
   }
 }
