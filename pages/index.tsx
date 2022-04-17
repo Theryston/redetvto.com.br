@@ -171,6 +171,8 @@ const Home: NextPage<IProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  console.log("in static props at: " + new Date().getTime());
+
   const getLogoData = async (): Promise<ILogo> => {
     const res = await fetch(`${process.env.API_URL}/show/redetv/logo`);
     const logo = await res.json();
@@ -237,6 +239,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const allShow = await getAllEpisodesByAllShows(allShowsWithoutEpisodes);
   const lastVideos = await getLastVideos();
   const allSponsorLogos = await getAllSponsorLogos();
+
+  console.log(allShow[0].posters);
 
   return {
     props: {

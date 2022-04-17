@@ -59,6 +59,8 @@ const VideoSource: NextPage<IProps> = ({ source }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  console.log("in static paths at: " + new Date().getTime());
+
   const paths = [];
   const response = await fetch(`${process.env.API_URL}/show/source/list`);
   const sources: ISource[] = await response.json();
